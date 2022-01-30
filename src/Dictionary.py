@@ -57,9 +57,9 @@ class Dictionary:
 		newdict.words = self.words
 		return newdict
 	
-	def remove(self,letter,contains):
+	def remove(self,letter,contains,count):
 		new_words = {}
-		char_val = self.conversions[letter]
+		char_val = self.conversions[letter]**count
 		for word in self.words:
 			if contains:
 				if self.words[word] % char_val != 0:
@@ -89,10 +89,12 @@ class Dictionary:
 			print("[{}]".format(word))
 	
 
-def check_contains(letter,word):
+def check_contains(letter,word,count):
 	for x in range(5):
 		if letter == word[x]:
-			return True
-			
+			count-=1
+	return count < 1
+
+
 def check_location(letter,word,position):
 	return letter == word[position]

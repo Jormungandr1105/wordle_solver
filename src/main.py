@@ -40,8 +40,8 @@ def run(file):
 def run_ai(file):
 	pidgeon = Pidgeon(file)
 	opponent = Dictionary(file,False)
-	#word = rand.choice(opponent.word_list())
-	word = "could"
+	word = rand.choice(opponent.word_list())
+	#word = "could"
 	for x in range(6):
 		guess = pidgeon.generate_word()
 		if guess == word:
@@ -51,19 +51,24 @@ def run_ai(file):
 			print("[{}] ".format(x+1),end="")
 			for i in range(5):
 				letter = guess[i]
+				count = 1
+				for j in range(i):
+					if guess[j] == letter:
+						count += 1
 				if pidgeon.dictionary.conversions.get(letter)!= None:
-					if check_contains(letter,word):
+					if check_contains(letter,word,count):
 						if check_location(letter,word,i):
 							print("\033[42m{}\033[0m".format(letter),end="")
 							pidgeon.dictionary.remove_position(letter,i,False)
 						else:
 							print("\033[43m{}\033[0m".format(letter),end="")
-							pidgeon.dictionary.remove(letter,False)
+							pidgeon.dictionary.remove(letter,False,count)
 							pidgeon.dictionary.remove_position(letter,i,True)
 					else:
 						print(letter,end="")
-						pidgeon.dictionary.remove(letter,True)
-						pidgeon.dictionary.conversions.pop(letter)
+						pidgeon.dictionary.remove(letter,True,count)
+						if count == 1:
+							pidgeon.dictionary.conversions.pop(letter)
 				else:
 					print(letter,end="")
 			print()
