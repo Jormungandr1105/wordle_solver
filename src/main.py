@@ -3,6 +3,7 @@ from Pidgeon import Pidgeon
 #
 import random as rand
 import time
+import os.path as path
 
 
 def run(file):
@@ -25,9 +26,11 @@ def run(file):
 				letter = guess[i]
 				if check_contains(letter,word):
 					if check_location(letter,word,i):
+						# Green -> correct location
 						print("\033[42m{}\033[0m".format(letter),end="")
 						dictionary.remove_position(letter,i,False)
 					else:
+						# Yellow -> right letter, wrong spot
 						print("\033[43m{}\033[0m".format(letter),end="")
 						dictionary.remove(letter,False)
 						dictionary.remove_position(letter,i,True)
@@ -38,13 +41,14 @@ def run(file):
 	print(word)
 
 def run_ai(file):
+	# Set up AI and opponent
 	pidgeon = Pidgeon(file)
 	opponent = Dictionary(file,False)
 	word = rand.choice(opponent.word_list())
-	#word = "could"
-	for x in range(6):
+	for x in range(6): # Wordle gives 6 tries
 		guess = pidgeon.generate_word()
 		if guess == word:
+			# SUCCESS!
 			print("[{0}] \033[42m{1}\033[0m".format(x+1,word))
 			break
 		else:
@@ -65,7 +69,7 @@ def run_ai(file):
 							pidgeon.dictionary.remove(letter,False,count)
 							pidgeon.dictionary.remove_position(letter,i,True)
 					else:
-						print(letter,end="")
+						print("\033[0m{}".format(letter),end="")
 						pidgeon.dictionary.remove(letter,True,count)
 						if count == 1:
 							pidgeon.dictionary.conversions.pop(letter)

@@ -70,6 +70,8 @@ class Dictionary:
 		self.words = new_words
 	
 	def remove_position(self,letter,position,contains):
+		# If contains, removes words where letter not at postion
+		# If not, removes words where letter is at positions
 		new_words = {}
 		for word in self.words:
 			if word[position] == letter and not contains:
@@ -97,4 +99,5 @@ def check_contains(letter,word,count):
 
 
 def check_location(letter,word,position):
+	# Checks if "letter" at position "index"
 	return letter == word[position]

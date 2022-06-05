@@ -13,4 +13,6 @@ class Pidgeon:
 		chars = []
 		for letter in self.dictionary.conversions:
 			char_val = self.dictionary.conversions[letter]
-			
+			for word in self.dictionary.words:
+				if self.dictionary.words[word] % char_val == 0:
+					pass
